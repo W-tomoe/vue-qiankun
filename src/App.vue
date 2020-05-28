@@ -1,28 +1,29 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="main-container">
+    <Navbar></Navbar>
+    <!-- 子应用盒子 -->
+    <div id="root-view" class="app-view-box" v-html="content"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from '@/components/layout/Navbar.vue'
+import { Loading } from 'element-ui'
 
 export default {
   name: 'App',
+  props: {
+    loading: Boolean,
+    content: String
+  },
   components: {
-    HelloWorld
+    Navbar
+  },
+  beforeCreate () {
+    const loadingInstance = Loading.service({ fullscreen: true })
+    this.$nextTick(() => { // 以服务的方式调用的 Loading 需要异步关闭
+      loadingInstance.close()
+    })
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
